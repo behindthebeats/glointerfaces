@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	implements="org.glomaker.shared.component.interfaces.IComponentControl"
+	keyDown="onKeyDown(event)"
+	focusOut="onFocusOut(event)">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			private var _pluginPropertyName:String;
+			
+			public static const COMMIT_PROPERTY:String = "Commit.Property";
+			
+			[Event(name=COMMIT_PROPERTY, type="flash.events.Event")]
+			
+			public function set pluginPropertyValue(value:*):void
+			{
+				throw(new Error("Override this method to set pluginPropertyValue"));
+			}
+		
+			public function get pluginPropertyValue():*
+			{
+				throw(new Error("Override this method to get pluginPropertyValue"));
+			}
+		
+			public function set pluginPropertyName(name:String):void
+			{
+				_pluginPropertyName = name;
+			}
+		
+			public function get pluginPropertyName():String
+			{
+				return _pluginPropertyName;
+			}
+			
+			protected function onKeyDown(evt:KeyboardEvent):void
+			{
+				if(evt.keyCode == Keyboard.ENTER)
+				{
+					dispatchEvent(new Event(COMMIT_PROPERTY));
+				}
+			}
+			
+			protected function onFocusOut(evt:FocusEvent):void
+			{
+				dispatchEvent(new Event(COMMIT_PROPERTY));
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Canvas>
