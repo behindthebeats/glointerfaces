@@ -12,6 +12,7 @@
 <classEntry path="org.glomaker.shared.component.plugincontrols.BaseComponentControl"/>
 <classEntry path="org.glomaker.shared.component.plugincontrols.PluginNumericStepper"/>
 <classEntry path="org.glomaker.shared.component.plugincontrols.PluginTextInputControl"/>
+<classEntry path="org.glomaker.shared.component.utils.MissingImageSkin"/>
 <classEntry path="org.glomaker.shared.player.IPlayerBridge"/>
 <classEntry path="org.glomaker.shared.properties.ArrayField"/>
 <classEntry path="org.glomaker.shared.properties.BooleanField"/>

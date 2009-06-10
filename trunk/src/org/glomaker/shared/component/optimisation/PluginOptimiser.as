@@ -21,6 +21,7 @@ package org.glomaker.shared.component.optimisation
 	import mx.controls.TileList;
 	
 	import org.glomaker.shared.component.BaseComponent;
+	import org.glomaker.shared.component.utils.MissingImageSkin;
 	import org.glomaker.shared.properties.FilePathField;
 	import org.glomaker.shared.properties.IntegerField;
 	import org.glomaker.shared.properties.NumberField;
@@ -41,7 +42,8 @@ package org.glomaker.shared.component.optimisation
 					FilePathField,
 					RichTextField,
 					Array,
-					ArrayCollection
+					ArrayCollection,
+					MissingImageSkin
 				];
 				
 		private var uiIncludes:Array = [
