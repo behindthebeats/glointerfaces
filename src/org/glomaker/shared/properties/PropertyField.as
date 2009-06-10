@@ -31,11 +31,11 @@ package org.glomaker.shared.properties
 		 */		 
 		public function PropertyField(propName:String, label:String, value:* = null, editable:Boolean = true)
 		{
-			//_target = target;
-			_propName = propName;
-			_label = label;
-			_value = value;
-			_isEditable = isEditable;
+			// use setters here so behaviour can be overridden in child class
+			this.propName = propName;
+			this.label = label;
+			this.value = value;
+			this.isEditable = isEditable;
 		}
 		
 		/**
@@ -91,6 +91,14 @@ package org.glomaker.shared.properties
 		public function get propName():String
 		{
 			return _propName;
+		}
+		public function set propName(value:String):void
+		{
+			_propName = value;
+		}
+		public function set label(value:String):void
+		{
+			_label = value;
 		}
 		public function get label():String
 		{
