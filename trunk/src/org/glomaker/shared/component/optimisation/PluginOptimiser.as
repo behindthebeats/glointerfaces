@@ -29,6 +29,7 @@ package org.glomaker.shared.component.optimisation
 	import org.glomaker.shared.properties.StringArrayCollectionField;
 	import org.glomaker.shared.properties.StringField;
 	import org.glomaker.shared.ui.editbutton.EditableButton;
+	import org.glomaker.shared.utils.MutableArray;
 	
 	public class PluginOptimiser
 	{
@@ -43,7 +44,8 @@ package org.glomaker.shared.component.optimisation
 					RichTextField,
 					Array,
 					ArrayCollection,
-					MissingImageSkin
+					MissingImageSkin,
+					MutableArray
 				];
 				
 		private var uiIncludes:Array = [
