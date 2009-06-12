@@ -43,11 +43,14 @@ package org.glomaker.shared.utils
 		/**
 		 * Specifies the source array that the MutableArray instance acts as a wrapper for.
 		 * @param source
+		 * @param suppressChangeEvent
 		 */		
-		public function wrap(source:Array):void
+		public function wrap(source:Array, suppressChangeEvent:Boolean = false):void
 		{
 			_array = source;
-			dispatchChangeEvent();
+			
+			if(!suppressChangeEvent)
+				dispatchChangeEvent();
 		}
 		
 		/**

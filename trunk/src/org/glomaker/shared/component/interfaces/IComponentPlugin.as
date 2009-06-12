@@ -2,7 +2,7 @@ package org.glomaker.shared.component.interfaces
 {
 	import mx.core.IUIComponent;
 	
-	import org.glomaker.shared.properties.PropertyField;
+	import org.glomaker.shared.properties.IComponentProperty;
 	import org.glomaker.shared.utils.MutableArray;
 	
 	/**
@@ -58,7 +58,7 @@ package org.glomaker.shared.component.interfaces
 		 * Called as part of a component's lifecycle within GLOMaker or the player.
 		 * @param prop
 		 */		
-		function editablePropertyUpdated(prop:PropertyField):void;
+		function editablePropertyUpdated(prop:IComponentProperty):void;
 		
 
 		/**
