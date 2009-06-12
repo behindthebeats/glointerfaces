@@ -22,12 +22,19 @@ package org.glomaker.shared.component.optimisation
 	
 	import org.glomaker.shared.component.BaseComponent;
 	import org.glomaker.shared.component.utils.MissingImageSkin;
-	import org.glomaker.shared.properties.FilePathField;
-	import org.glomaker.shared.properties.IntegerField;
-	import org.glomaker.shared.properties.NumberField;
-	import org.glomaker.shared.properties.RichTextField;
-	import org.glomaker.shared.properties.StringArrayCollectionField;
-	import org.glomaker.shared.properties.StringField;
+	import org.glomaker.shared.properties.AbstractCustomProperty;
+	import org.glomaker.shared.properties.AbstractSimpleProperty;
+	import org.glomaker.shared.properties.ArrayProperty;
+	import org.glomaker.shared.properties.BooleanProperty;
+	import org.glomaker.shared.properties.ColourProperty;
+	import org.glomaker.shared.properties.FilePathArrayProperty;
+	import org.glomaker.shared.properties.FilePathProperty;
+	import org.glomaker.shared.properties.IComponentProperty;
+	import org.glomaker.shared.properties.IntegerProperty;
+	import org.glomaker.shared.properties.NumberProperty;
+	import org.glomaker.shared.properties.NumericStepperProperty;
+	import org.glomaker.shared.properties.RichTextProperty;
+	import org.glomaker.shared.properties.StringProperty;
 	import org.glomaker.shared.ui.editbutton.EditableButton;
 	import org.glomaker.shared.utils.MutableArray;
 	
@@ -36,12 +43,21 @@ package org.glomaker.shared.component.optimisation
 
 		private var classIncludes:Array = [
 					BaseComponent,
-					StringField,
-					NumberField,
-					IntegerField,
-					StringArrayCollectionField,
-					FilePathField,
-					RichTextField,
+					
+					IComponentProperty,
+					AbstractSimpleProperty,
+					AbstractCustomProperty,
+					ArrayProperty,
+					BooleanProperty,
+					ColourProperty,
+					FilePathArrayProperty,
+					FilePathProperty,
+					IntegerProperty,
+					NumberProperty,
+					NumericStepperProperty,
+					RichTextProperty,
+					StringProperty,
+					
 					Array,
 					ArrayCollection,
 					MissingImageSkin,

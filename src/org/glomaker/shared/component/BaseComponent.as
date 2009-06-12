@@ -4,7 +4,7 @@ package org.glomaker.shared.component
 	import mx.modules.Module;
 	
 	import org.glomaker.shared.component.interfaces.IComponentPlugin;
-	import org.glomaker.shared.properties.PropertyField;
+	import org.glomaker.shared.properties.IComponentProperty;
 	import org.glomaker.shared.utils.MutableArray;
 
 	public class BaseComponent extends Module implements IComponentPlugin
@@ -22,6 +22,13 @@ package org.glomaker.shared.component
 		 * Note: A property can be included in editable and saveable properties. 
 		 */		
 		private var _saveableProperties:Array;
+		
+		
+		/**
+		 * A list storing (unique) references to all properties created during the lifetime of the application.
+		 * Used by destroy() to make sure that all properties are destroyed. 
+		 */		
+		private var _allProperties:Array;
 	
 	
 		/**
@@ -46,6 +53,7 @@ package org.glomaker.shared.component
 			// instantiate properties collections
 			_editableProperties = new MutableArray();
 			_saveableProperties = [];
+			_allProperties = [];
 			
 			// add event listener to detect creationComplete
 			addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
@@ -111,7 +119,7 @@ package org.glomaker.shared.component
 		 * Called as part of a component's lifecycle within GLOMaker or the player.
 		 * @param prop
 		 */		
-		public function editablePropertyUpdated(prop:PropertyField):void
+		public function editablePropertyUpdated(prop:IComponentProperty):void
 		{
 			// empty - implement specific behaviour in subclass
 		}
@@ -127,14 +135,15 @@ package org.glomaker.shared.component
 			removeEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
 			
 			// free up properties
-			var prop:PropertyField;
+			var prop:IComponentProperty;
 			
-			for each(prop in _saveableProperties)
-				prop.destroy();
-				
-			for each(prop in _editableProperties.source)
-				prop.destroy();
-				
+			for each(prop in _allProperties)
+			{
+				if(prop)
+					prop.destroy();
+			}
+			
+			_allProperties = null;
 			_saveableProperties = null;
 			_editableProperties = null;
 		}
@@ -218,15 +227,16 @@ package org.glomaker.shared.component
  		 * 
  		 * This method should only be called from within defineProperties()!
  		 * 
-		 * @param pf
+		 * @param prop
 		 * 
 		 * @see addSaveableProperty()
 		 * @see addEditableProperty()
 		 */
-		protected function addProperty(pf:PropertyField):void
+		protected function addProperty(prop:IComponentProperty):void
 		{
-			addSaveableProperty(pf);
-			addEditableProperty(pf);
+			addPropertyRef(prop);
+			addSaveableProperty(prop);
+			addEditableProperty(prop);
 		}		
 		
 		
@@ -237,15 +247,15 @@ package org.glomaker.shared.component
 		 * 
 		 * This method should only be called from within defineProperties()!
 		 * 
-		 * @param pf
+		 * @param prop
 		 * 
 		 * @see addProperty()
 		 * @see addEditableProperty()
 		 */
-		protected function addSaveableProperty(pf:PropertyField):void
+		protected function addSaveableProperty(prop:IComponentProperty):void
 		{
-			pf.isEditable = false;
-			_saveableProperties.push(pf);
+			addPropertyRef(prop);
+			_saveableProperties.push(prop);
 		}
 
 
@@ -256,15 +266,15 @@ package org.glomaker.shared.component
 		 * 
 		 * This method should only be called from within defineProperties()!
 		 * 
-		 * @param pf
+		 * @param prop
 		 *
 		 * @see addProperty()  
 		 * @see addSaveableProperty()
 		 */
-		protected function addEditableProperty(pf:PropertyField):void
+		protected function addEditableProperty(prop:IComponentProperty):void
 		{
-			pf.isEditable = true;
-			_editableProperties.source.push(pf);
+			addPropertyRef(prop);
+			_editableProperties.source.push(prop);
 		}
 		
 		/**
@@ -278,15 +288,22 @@ package org.glomaker.shared.component
 		 */		
 		protected function updateEditableProperties(completeList:Array):void
 		{
-			// destroy existing properties which are not also saveable
-			for each(var prop:PropertyField in _editableProperties.source)
-			{
-				if(!(prop in _saveableProperties))
-					prop.destroy();
-			}
-				
+			for each(var prop:IComponentProperty in completeList)
+				addPropertyRef(prop);
+			
 			// assign new ones
 			_editableProperties.wrap(completeList);
+		}
+		
+		/**
+		 * Adds a property to the _allproperties array.
+		 * The property is only added if it's not already part of the array. 
+		 * @param prop
+		 */		
+		private function addPropertyRef(prop:IComponentProperty):void
+		{
+			if(!(prop in _allProperties))
+				_allProperties.push(prop);
 		}
 		
 	}
