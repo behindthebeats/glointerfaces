@@ -1,5 +1,7 @@
 package org.glomaker.shared.properties
 {
+	import com.adobe.serialization.json.JSON;
+	
 
 	/**
 	 * Provides an abstract base-class for more complex custom properties.
@@ -103,6 +105,74 @@ package org.glomaker.shared.properties
 		public function destroy():void
 		{
 		}
+		
+		
+		// ------------------------------------------------------------------
+		// PROTECTED METHODS
+		// ------------------------------------------------------------------
+		
+		
+		/**
+		 * Utility method - serialises a single file path value into the correct output format expected by GLOMaker. 
+		 * @param path The filepath value.
+		 * @param tagName The name that should be used for the enclosing XML tag.
+		 * @return An XML node in the format expected by GLOMaker.
+		 * @see deserialiseFilePath() 
+		 */		
+		protected function serialiseFilePath( path:String, tagName:String ):XML
+		{
+			return <{tagName} isPath="true">{JSON.encode(path)}</{tagName}>;
+		}
+		
+		
+		/**
+		 * Utility method - serialises an array storing file paths into the correct output format expected by GLOMaker.
+		 * @param paths Array of paths - must be a one-dimensional array of strings
+		 * @param tagName The name that should be used fo rthe enclosing XML tag.
+		 * @return An XML node in the format expected by GLOMaker.
+		 * @throws An Error if paths argument is null, an Error if the paths argument is not a one-dimensional array of strings.
+		 * @see deserialiseFilePathArray()
+		 */		
+		protected function serialiseFilePathArray( paths:Array, tagName:String ):XML
+		{
+			// integrity check
+			if(paths == null)
+				throw new Error("Invalid argument - paths must be non-null.");
+
+			for each(var o:Object in paths)
+			{
+				if(!(o is String))
+					throw new Error("Invalid argument - paths must be a one-dimensional array of Strings.");
+			}
+			
+			// encode
+			return <{tagName} isPath="true">{JSON.encode(paths)}</{tagName}>;
+		}
+		
+		
+		/**
+		 * Deserialises a file path XML node into the file path value itself. 
+		 * @param pathNode The XML node - should be in the same format as supplied by serialiseFilePath()
+		 * @return The file path value.
+		 * @see serialiseFilePath();
+		 */		
+		protected function deserialiseFilePath( pathNode:XML ):String
+		{
+			return JSON.decode( pathNode.text() ) as String;
+		}
+		
+		
+		/**
+		 * Deserialises a file path array XML node into the array of file path values itself. 
+		 * @param pathNode The XML node - should be in the same format as supplied by serialiseFilePathArray()
+		 * @return An array of file path value string instances.
+		 * @see serialiseFilePathArray();
+		 */
+		protected function deserialiseFilePathArray( pathNode:XML ):Array
+		{
+			return JSON.decode( pathNode.text() ) as Array; 
+		}
+		
 		
 	}
 }
