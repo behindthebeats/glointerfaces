@@ -1,5 +1,7 @@
 package org.glomaker.shared.component.optimisation
 {
+	import com.adobe.serialization.json.JSON;
+	
 	import mx.collections.ArrayCollection;
 	import mx.containers.Canvas;
 	import mx.containers.ControlBar;
@@ -61,7 +63,9 @@ package org.glomaker.shared.component.optimisation
 					Array,
 					ArrayCollection,
 					MissingImageSkin,
-					MutableArray
+					MutableArray,
+					
+					JSON
 				];
 				
 		private var uiIncludes:Array = [
