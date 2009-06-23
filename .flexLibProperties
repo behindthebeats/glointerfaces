@@ -8,7 +8,6 @@
 <classEntry path="org.glomaker.shared.component.interfaces.ISlideshowStatusObject"/>
 <classEntry path="org.glomaker.shared.component.interfaces.ISlideshowStatusReceiver"/>
 <classEntry path="org.glomaker.shared.component.optimisation.PluginOptimiser"/>
-<classEntry path="org.glomaker.shared.component.utils.DynamicTextArea"/>
 <classEntry path="org.glomaker.shared.component.utils.MissingImageSkin"/>
 <classEntry path="org.glomaker.shared.player.IPlayerBridge"/>
 <classEntry path="org.glomaker.shared.properties.AbstractCustomProperty"/>
@@ -24,6 +23,7 @@
 <classEntry path="org.glomaker.shared.properties.NumericStepperProperty"/>
 <classEntry path="org.glomaker.shared.properties.RichTextProperty"/>
 <classEntry path="org.glomaker.shared.properties.StringProperty"/>
+<classEntry path="org.glomaker.shared.ui.DynamicTextArea"/>
 <classEntry path="org.glomaker.shared.ui.editbutton.EditableButton"/>
 <classEntry path="org.glomaker.shared.utils.MutableArray"/>
 </includeClasses>
