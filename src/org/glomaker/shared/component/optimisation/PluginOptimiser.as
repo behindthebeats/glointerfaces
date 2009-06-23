@@ -23,6 +23,7 @@ package org.glomaker.shared.component.optimisation
 	import mx.controls.TileList;
 	
 	import org.glomaker.shared.component.BaseComponent;
+	import org.glomaker.shared.component.utils.DynamicTextArea;
 	import org.glomaker.shared.component.utils.MissingImageSkin;
 	import org.glomaker.shared.properties.AbstractCustomProperty;
 	import org.glomaker.shared.properties.AbstractSimpleProperty;
@@ -87,7 +88,8 @@ package org.glomaker.shared.component.optimisation
 					TileList,
 					CheckBox,
 					RadioButton,
-					EditableButton
+					EditableButton,
+					DynamicTextArea
 				];
 
 	}
