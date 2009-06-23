@@ -1,4 +1,4 @@
-package org.glomaker.shared.component.utils
+package org.glomaker.shared.ui
 {
   import flash.events.Event;
   
@@ -34,15 +34,17 @@ package org.glomaker.shared.component.utils
 	{
 		removeEventListener(FlexEvent.CREATION_COMPLETE, adjustHeightHandler);
 		textField.mouseWheelEnabled = false;
-		adjustHeightHandler();
 	}
 
     private function adjustHeightHandler(event:Event = null):void
     {
-      height = calcRequiredHeight();
-      validateNow();
+    	if(textField)
+    	{
+      		super.height = calcRequiredHeight();
+      		validateNow();
+     	}
     }
-
+    
     override public function set height(value:Number):void{
       
       // if height set before creationComplete
@@ -60,16 +62,34 @@ package org.glomaker.shared.component.utils
       }
     }
     
+    override public function set width(value:Number):void
+    {
+    	super.width = value;
+    	callLater(adjustHeightHandler);
+    }
+    
+    
+    override public function setActualSize(w:Number, h:Number):void
+    {
+    	super.setActualSize(w, h);
+    	callLater(adjustHeightHandler);
+    }
+    
     protected function calcRequiredHeight():Number
     {
-    	if(!textField)
+    	// if the width is zero, then the textfield will resize to display 1 character per line
+    	// this usually happens when the textarea is initialised with a percentage width
+		// to avoid the textfield from flashing up at a huge height, we simply treat this as a special case
+ 
+    	if(!textField || getExplicitOrMeasuredWidth() == 0)
     	{
     		if(minHeight)
     			return minHeight;
     		else
     			return 0;
     	}
- 
+
+		// looks like we have reliable measurements    	
     	var requiredHeight:Number = textField.numLines * textField.getLineMetrics(0).height + 4;
     	return Math.max( minHeight, Math.min( maxHeight, requiredHeight ));
     }

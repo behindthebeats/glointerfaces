@@ -23,7 +23,6 @@ package org.glomaker.shared.component.optimisation
 	import mx.controls.TileList;
 	
 	import org.glomaker.shared.component.BaseComponent;
-	import org.glomaker.shared.component.utils.DynamicTextArea;
 	import org.glomaker.shared.component.utils.MissingImageSkin;
 	import org.glomaker.shared.properties.AbstractCustomProperty;
 	import org.glomaker.shared.properties.AbstractSimpleProperty;
@@ -38,6 +37,7 @@ package org.glomaker.shared.component.optimisation
 	import org.glomaker.shared.properties.NumericStepperProperty;
 	import org.glomaker.shared.properties.RichTextProperty;
 	import org.glomaker.shared.properties.StringProperty;
+	import org.glomaker.shared.ui.DynamicTextArea;
 	import org.glomaker.shared.ui.editbutton.EditableButton;
 	import org.glomaker.shared.utils.MutableArray;
 	
