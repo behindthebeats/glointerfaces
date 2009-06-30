@@ -14,6 +14,8 @@ package org.glomaker.shared.player
 		function setPageList(value:Array):void;
 		function setGLOStage(value:Object):void;
 		function setBackgroundColour(value:uint):void;
+		function init():void;
+		function destroy():void;
 
 	}
 }
