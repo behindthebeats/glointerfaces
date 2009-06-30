@@ -10,6 +10,7 @@ package org.glomaker.shared.player
 	public interface IPlayerBridge
 	{
 
+		function setStartPageIndex(value:int):void;
 		function setPageList(value:Array):void;
 		function setGLOStage(value:Object):void;
 		function setBackgroundColour(value:uint):void;
