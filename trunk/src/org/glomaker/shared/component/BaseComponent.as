@@ -212,13 +212,6 @@ package org.glomaker.shared.component
 			}
 		}
 		
-		
-		public function printVersion():void
-		{
-			trace("BaseComponent v2");
-		}
-		
-		
 		/**
 		 * Shared memory has become available.
 		 * Method can be overridden in subclasses to initialise data from shared memory. 
@@ -236,13 +229,14 @@ package org.glomaker.shared.component
 		}
 		
 		/**
-		 * Read a named value from the shared memory object. 
+		 * Read a named value from the shared memory object.
 		 * @param name
 		 * @return 
 		 * @throws Error if shared memory isn't set - you're probably calling this method too early.
 		 */
-		protected function readFromMemory( name:String ):*
+		final protected function readFromMemory( name:String ):*
 		{
+			// this method is final to avoid plugin developers overriding it by mistake
 			if( !_sharedMemory )
 			{
 				throw new Error("Shared memory not set - can't read from it. Wait until sharedMemoryAvailable() is called.");
@@ -258,8 +252,9 @@ package org.glomaker.shared.component
 		 * @throws Error if trying to overwrite an existing property without setting allowOverwrite to true
 		 * @throws Error if shared memory isn't set.
 		 */
-		protected function writeToMemory( name:String, value:*, allowOverwrite:Boolean = false ):void
+		final protected function writeToMemory( name:String, value:*, allowOverwrite:Boolean = false ):void
 		{
+			// this method is final to avoid plugin developers overriding it by mistake
 			if( !_sharedMemory )
 			{
 				throw new Error("Shared memory not set - can't read from it. Wait until sharedMemoryAvailable() is called.");
@@ -277,8 +272,9 @@ package org.glomaker.shared.component
 		 * Deletes a named property from shared memory. 
 		 * @param name
 		 */		
-		protected function deleteFromMemory( name:String ):void
+		final protected function deleteFromMemory( name:String ):void
 		{
+			// this method is final to avoid plugin developers overriding it by mistake
 			if( !_sharedMemory )
 			{
 				throw new Error("Shared memory not set - can't read from it. Wait until sharedMemoryAvailable() is called.");
