@@ -192,11 +192,100 @@ package org.glomaker.shared.component
 		 * Provides the component with the shared memory object.
 		 * This object persists throughout the lifespan of the GLO project and can be used to store data across pages.
 		 */		
-		public function setSharedMemory(o:Object):void
+		final public function setSharedMemory(o:Object):void
 		{
+			// if shared memory is set and is about to be cleared to null,
+			// we allow the component plugin to store values first
+			if( _sharedMemory && o == null )
+			{
+				sharedMemoryPreDestroyHook();
+			}
+			
+			// save new value
 			_sharedMemory = o;
+			
+			// if the shared memory is now available, notify the component subclass
+			// this prevents problems if shared memory is cleared (set to null)
+			if( _sharedMemory )
+			{
+				sharedMemoryAvailable();
+			}
 		}
-
+		
+		
+		public function printVersion():void
+		{
+			trace("BaseComponent v2");
+		}
+		
+		
+		/**
+		 * Shared memory has become available.
+		 * Method can be overridden in subclasses to initialise data from shared memory. 
+		 */		
+		protected function sharedMemoryAvailable():void
+		{
+		}
+		
+		/**
+		 * Shared memory is about to be cleared.
+		 * This method provides a last-minute option to update values before the connection is lost. 
+		 */		
+		protected function sharedMemoryPreDestroyHook():void
+		{
+		}
+		
+		/**
+		 * Read a named value from the shared memory object. 
+		 * @param name
+		 * @return 
+		 * @throws Error if shared memory isn't set - you're probably calling this method too early.
+		 */
+		protected function readFromMemory( name:String ):*
+		{
+			if( !_sharedMemory )
+			{
+				throw new Error("Shared memory not set - can't read from it. Wait until sharedMemoryAvailable() is called.");
+			}
+			
+			return _sharedMemory[ name ];
+		}
+		
+		/**
+		 * Store a value in shared memory.
+		 * @param name Name to store it under.
+		 * @param allowOverwrite Set to true to allow overwriting of existing property.
+		 * @throws Error if trying to overwrite an existing property without setting allowOverwrite to true
+		 * @throws Error if shared memory isn't set.
+		 */
+		protected function writeToMemory( name:String, value:*, allowOverwrite:Boolean = false ):void
+		{
+			if( !_sharedMemory )
+			{
+				throw new Error("Shared memory not set - can't read from it. Wait until sharedMemoryAvailable() is called.");
+			}
+			
+			if( _sharedMemory[ name ] && !allowOverwrite )
+			{
+				throw new Error("A value with this name already exists. Have you chosen the right name?");
+			}
+			
+			_sharedMemory[ name ] = value;
+		}
+		
+		/**
+		 * Deletes a named property from shared memory. 
+		 * @param name
+		 */		
+		protected function deleteFromMemory( name:String ):void
+		{
+			if( !_sharedMemory )
+			{
+				throw new Error("Shared memory not set - can't read from it. Wait until sharedMemoryAvailable() is called.");
+			}
+			
+			delete _sharedMemory[ name ];
+		}
 
 
 		// ------------------------------------------------------------------
