@@ -44,6 +44,19 @@ package org.glomaker.shared.component
 		private var _sharedMemory:Object;
 		
 		
+		/**
+		 * Has propertyValuesInitialised() been called?
+		 * @see isAllInitialised()
+		 */		
+		private var _propertiesAvailable:Boolean = false;
+		
+		/**
+		 * Has setSharedMemory() been called?
+		 * @see isAllInitialised() 
+		 */		
+		private var _sharedMemoryAvailable:Boolean = false;
+		
+		
 		// ------------------------------------------------------------------
 		// CONSTRUCTOR 
 		// ------------------------------------------------------------------
@@ -104,10 +117,20 @@ package org.glomaker.shared.component
 		/**
 		 * Notifies the component that the values of its defined PropertyFields have been updated.
 		 * Called as part of a component's lifecycle within GLOMaker or the player. 
+		 * DEPRECATED: Use componentInitComplete() instead.
 		 */
 		public function propertyValuesInitialised():void
 		{
 			// empty - implement specific behaviour in subclass
+			
+			// update state
+			_propertiesAvailable = true;
+			
+			// if all other initilisation steps have completed, call the final hook method
+			if( isAllInitialised() )
+			{
+				componentInitComplete();
+			}
 		}
 		
 		/**
@@ -199,25 +222,21 @@ package org.glomaker.shared.component
 			if( _sharedMemory && o == null )
 			{
 				sharedMemoryPreDestroyHook();
+				_sharedMemory = null;
+				return;
 			}
 			
-			// save new value
+			// save new value (not null)
 			_sharedMemory = o;
 			
-			// if the shared memory is now available, notify the component subclass
-			// this prevents problems if shared memory is cleared (set to null)
-			if( _sharedMemory )
+			// update state
+			_sharedMemoryAvailable = true;
+			
+			// if all other initilisation steps have completed, call the final componentInitComplete() method
+			if( isAllInitialised() )
 			{
-				sharedMemoryAvailable();
+				componentInitComplete();
 			}
-		}
-		
-		/**
-		 * Shared memory has become available.
-		 * Method can be overridden in subclasses to initialise data from shared memory. 
-		 */		
-		protected function sharedMemoryAvailable():void
-		{
 		}
 		
 		/**
@@ -310,7 +329,15 @@ package org.glomaker.shared.component
 		{
 			// empty - implement specific behaviour in subclass			
 		}
-
+		
+		
+		/**
+		 * Internal method that's called when all initialisation sequences (properties, shared memory) have completed.
+		 * Override this method in order to access shared memory and other data properties. 
+		 */		
+		protected function componentInitComplete():void
+		{
+		}
 		
 		/**
 		 * Adds a PropertyField instance to the list of properties that this component exposes to GLOMaker.
@@ -396,6 +423,16 @@ package org.glomaker.shared.component
 		{
 			if(!(prop in _allProperties))
 				_allProperties.push(prop);
+		}
+		
+		
+		/**
+		 * Allows code to check whether all initialisation functions have fired. 
+		 * @return 
+		 */		
+		private function isAllInitialised():Boolean
+		{
+			return ( _sharedMemoryAvailable && _propertiesAvailable );
 		}
 		
 	}
