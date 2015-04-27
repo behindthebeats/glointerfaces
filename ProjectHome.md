@@ -1,0 +1,1 @@
+The Glo Maker project has been split into three parts. This part relates specifically to the development of interfaces that link plugins to the main GLO Maker assembly.
